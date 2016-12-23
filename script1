@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#purpose of this script is to manage the initial deployment of servers, based on staging images that have been created from
+#firstly manual installation, then later kickstarter and then vagrant.
+
+#High level design
+#  generate staging servers with staging ip addresses in a range (10.1.2.3-10.1.2.10), from a single centos-7 template (centos7-template) that has ip address of 10.1.2.2
+# logic: for $n of type int from 3 to 10:
+#			ssh to 10.1.2.2
+			virt-clone --original centos_template --name staging01 --auto-clone && 
+			virt-sysprep  --hostname staging01 --domain staging01 
+#			hostname to staging0$n.mike.local
+#			ip address to 10.1.2.$n/24
+#			gateway to 10.1.2.1
+#			DNS to 10.1.2.20, 8.8.8.8
+#			restart network interface to apply settings
+
+#after this, next script can be applied to move the server to it's deploy the server's role and move it to the appropriate ip range for this role
+
+
